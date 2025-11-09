@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx @nestjs/cli new:*)",
+      "Bash(npm install:*)",
+      "Bash(npx prisma init)",
+      "Bash(docker-compose up:*)",
+      "Bash(npx prisma migrate:*)",
+      "Bash(npm test:*)",
+      "Bash(kill:*)",
+      "Bash(npm create:*)",
+      "Bash(docker-compose down:*)",
+      "Bash(docker-compose ps:*)",
+      "Bash(docker-compose logs:*)",
+      "Bash(docker-compose exec:*)",
+      "Bash(docker-compose restart:*)",
+      "Bash(curl:*)",
+      "Bash(npm run type-check:*)",
+      "Bash(npm run:*)",
+      "Bash(tsc:*)",
+      "Bash(npx tsc:*)",
+      "Bash(cat:*)",
+      "Bash(npm prune:*)",
+      "Bash(npx tailwindcss:*)",
+      "WebFetch(domain:mui.com)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

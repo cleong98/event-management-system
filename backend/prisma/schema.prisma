@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String   // bcrypt hashed
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  events        Event[]
+  refreshTokens RefreshToken[]
+
+  @@map("admins")
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  adminId   String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  admin Admin @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  @@map("refresh_tokens")
+}
+
+enum EventStatus {
+  ONGOING
+  COMPLETED
+}
+
+model Event {
+  id          String      @id @default(uuid())
+  name        String
+  startDate   DateTime
+  endDate     DateTime
+  location    String
+  posterUrl   String?     // Path to uploaded poster
+  status      EventStatus @default(ONGOING)
+  createdById String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  createdBy Admin @relation(fields: [createdById], references: [id])
+
+  @@index([status])
+  @@index([startDate])
+  @@index([createdById])
+  @@map("events")
+}
