@@ -39,7 +39,7 @@ lerna-debug.log*
 *.sublime-workspace
 
 # Uploads
-uploads/
+# uploads/
 !uploads/.gitkeep
 
 # Docker
