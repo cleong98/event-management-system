@@ -28,7 +28,9 @@
       "Bash(lsof:*)",
       "Bash(xargs kill:*)",
       "Bash(.dockerignore)",
-      "Bash(docker-compose build:*)"
+      "Bash(docker-compose build:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(pkill:*)"
     ],
     "deny": [],
     "ask": []

@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useQuery } from "@tanstack/react-query";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   Card,
   CardMedia,
@@ -10,24 +10,30 @@ import {
   Container,
   Button,
   Divider,
-} from '@mui/material';
-import { LocationOn, CalendarToday, ArrowBack } from '@mui/icons-material';
-import { format } from 'date-fns';
-import { eventsService } from '../../services/events.service';
-import { EventStatus } from '../../types';
+} from "@mui/material";
+import { LocationOn, CalendarToday, ArrowBack } from "@mui/icons-material";
+import { format } from "date-fns";
+import { eventsService } from "../../services/events.service";
+import { EventStatus } from "../../types";
 
 export const EventDetails = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const { data: event, isLoading, error } = useQuery({
-    queryKey: ['public-event', id],
+  const {
+    data: event,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["public-event", id],
     queryFn: () => eventsService.getPublicEventById(id!),
     enabled: !!id,
+    refetchOnMount: "always",
+    refetchOnWindowFocus: true,
   });
 
   const getStatusColor = (status: EventStatus) => {
-    return status === EventStatus.ONGOING ? 'success' : 'default';
+    return status === EventStatus.ONGOING ? "success" : "default";
   };
 
   if (isLoading) {
@@ -44,7 +50,7 @@ export const EventDetails = () => {
         <Alert severity="error">Event not found or failed to load.</Alert>
         <Button
           startIcon={<ArrowBack />}
-          onClick={() => navigate('/')}
+          onClick={() => navigate("/")}
           variant="contained"
         >
           Back to Events
@@ -59,7 +65,7 @@ export const EventDetails = () => {
       <div className="mb-4 sm:mb-6">
         <Button
           startIcon={<ArrowBack />}
-          onClick={() => navigate('/')}
+          onClick={() => navigate("/")}
           className="text-sm sm:text-base"
         >
           Back to Events
@@ -73,11 +79,11 @@ export const EventDetails = () => {
           <Card className="shadow-lg">
             <CardMedia
               component="img"
-              className="w-full h-auto max-h-[300px] sm:max-h-[400px] md:max-h-[500px] object-cover"
+              className="w-full h-auto min-w-[300px] min-h-[200px] max-h-[300px] sm:max-h-[400px] md:max-h-[500px] object-cover"
               image={
                 event.posterUrl
-                  ? `${import.meta.env.VITE_API_URL}${event.posterUrl}`
-                  : 'https://via.placeholder.com/600x400?text=No+Image'
+                  ? `${event.posterUrl}`
+                  : "https://via.placeholder.com/600x400?text=No+Image"
               }
               alt={event.name}
             />
@@ -109,28 +115,52 @@ export const EventDetails = () => {
           <div className="space-y-6">
             {/* Dates */}
             <div className="flex items-start gap-3 sm:gap-4">
-              <CalendarToday color="primary" className="text-2xl sm:text-3xl mt-1 shrink-0" />
+              <CalendarToday
+                color="primary"
+                className="text-2xl sm:text-3xl mt-1 shrink-0"
+              />
               <div>
-                <Typography variant="subtitle2" color="text.secondary" className="text-xs sm:text-sm">
+                <Typography
+                  variant="subtitle2"
+                  color="text.secondary"
+                  className="text-xs sm:text-sm"
+                >
                   Event Dates
                 </Typography>
-                <Typography variant="h6" className="text-base sm:text-lg md:text-xl font-semibold mt-1">
-                  {format(new Date(event.startDate), 'MMMM dd, yyyy')}
+                <Typography
+                  variant="h6"
+                  className="text-base sm:text-lg md:text-xl font-semibold mt-1"
+                >
+                  {format(new Date(event.startDate), "MMMM dd, yyyy")}
                 </Typography>
-                <Typography variant="body1" color="text.secondary" className="text-sm sm:text-base">
-                  to {format(new Date(event.endDate), 'MMMM dd, yyyy')}
+                <Typography
+                  variant="body1"
+                  color="text.secondary"
+                  className="text-sm sm:text-base"
+                >
+                  to {format(new Date(event.endDate), "MMMM dd, yyyy")}
                 </Typography>
               </div>
             </div>
 
             {/* Location */}
             <div className="flex items-start gap-3 sm:gap-4">
-              <LocationOn color="primary" className="text-2xl sm:text-3xl mt-1 shrink-0" />
+              <LocationOn
+                color="primary"
+                className="text-2xl sm:text-3xl mt-1 shrink-0"
+              />
               <div>
-                <Typography variant="subtitle2" color="text.secondary" className="text-xs sm:text-sm">
+                <Typography
+                  variant="subtitle2"
+                  color="text.secondary"
+                  className="text-xs sm:text-sm"
+                >
                   Location
                 </Typography>
-                <Typography variant="h6" className="text-base sm:text-lg md:text-xl font-semibold mt-1">
+                <Typography
+                  variant="h6"
+                  className="text-base sm:text-lg md:text-xl font-semibold mt-1"
+                >
                   {event.location}
                 </Typography>
               </div>
@@ -141,13 +171,21 @@ export const EventDetails = () => {
 
           {/* Event Status Description */}
           <div>
-            <Typography variant="subtitle2" color="text.secondary" gutterBottom className="text-xs sm:text-sm">
+            <Typography
+              variant="subtitle2"
+              color="text.secondary"
+              gutterBottom
+              className="text-xs sm:text-sm"
+            >
               Event Status
             </Typography>
-            <Typography variant="body1" className="text-sm sm:text-base text-gray-700">
+            <Typography
+              variant="body1"
+              className="text-sm sm:text-base text-gray-700"
+            >
               {event.status === EventStatus.ONGOING
-                ? 'This event is currently ongoing. Don\'t miss out!'
-                : 'This event has been completed.'}
+                ? "This event is currently ongoing. Don't miss out!"
+                : "This event has been completed."}
             </Typography>
           </div>
         </div>

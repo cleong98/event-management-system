@@ -20,7 +20,7 @@ import {
 import { CloudUpload } from '@mui/icons-material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { eventsService } from '../../services/events.service';
 import type { UpdateEventDto } from '../../types';
 import { EventStatus } from '../../types';
@@ -75,8 +75,13 @@ export const EditEvent = () => {
     severity: 'success' | 'error';
   }>({ open: false, message: '', severity: 'success' });
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  // Get today's date in YYYY-MM-DD format for min date validation
+  const today = new Date().toISOString().split('T')[0];
 
   const status = watch('status');
+  const startDate = watch('startDate');
 
   // Fetch existing event data
   const { data: event, isLoading } = useQuery({
@@ -119,6 +124,9 @@ export const EditEvent = () => {
       return eventsService.update(id!, eventData);
     },
     onSuccess: () => {
+      // Invalidate events cache to refetch the latest data
+      queryClient.invalidateQueries({ queryKey: ['events'] });
+
       setSnackbar({
         open: true,
         message: 'Event updated successfully!',
@@ -250,6 +258,9 @@ export const EditEvent = () => {
                     shrink: true,
                   },
                 }}
+                inputProps={{
+                  min: today,
+                }}
               />
             </Grid>
 
@@ -266,6 +277,9 @@ export const EditEvent = () => {
                   inputLabel: {
                     shrink: true,
                   },
+                }}
+                inputProps={{
+                  min: startDate || today,
                 }}
               />
             </Grid>

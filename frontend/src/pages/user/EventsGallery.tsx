@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
+import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import {
   Card,
   CardMedia,
@@ -10,22 +10,28 @@ import {
   CircularProgress,
   Alert,
   Container,
-} from '@mui/material';
-import { LocationOn, CalendarToday } from '@mui/icons-material';
-import { format } from 'date-fns';
-import { eventsService } from '../../services/events.service';
-import { EventStatus } from '../../types';
+} from "@mui/material";
+import { LocationOn, CalendarToday } from "@mui/icons-material";
+import { format } from "date-fns";
+import { eventsService } from "../../services/events.service";
+import { EventStatus } from "../../types";
 
 export const EventsGallery = () => {
   const navigate = useNavigate();
 
-  const { data: events, isLoading, error } = useQuery({
-    queryKey: ['public-events'],
+  const {
+    data: events,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["public-events"],
     queryFn: () => eventsService.getPublicEvents(),
+    refetchOnMount: "always",
+    refetchOnWindowFocus: true,
   });
 
   const getStatusColor = (status: EventStatus) => {
-    return status === EventStatus.ONGOING ? 'success' : 'default';
+    return status === EventStatus.ONGOING ? "success" : "default";
   };
 
   const handleEventClick = (eventId: string) => {
@@ -86,18 +92,19 @@ export const EventsGallery = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
         {events.map((event) => (
           <div key={event.id} className="w-full">
-            <Card
-              className="h-full flex flex-col transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg"
-            >
-              <CardActionArea onClick={() => handleEventClick(event.id)} className="h-full flex flex-col">
+            <Card className="h-full flex flex-col transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg">
+              <CardActionArea
+                onClick={() => handleEventClick(event.id)}
+                className="h-full flex flex-col"
+              >
                 {/* Event Image */}
                 <CardMedia
                   component="img"
                   className="h-48 sm:h-52 md:h-56 object-cover"
                   image={
                     event.posterUrl
-                      ? `${import.meta.env.VITE_API_URL}${event.posterUrl}`
-                      : 'https://via.placeholder.com/400x200?text=No+Image'
+                      ? `${event.posterUrl}`
+                      : "https://via.placeholder.com/400x200?text=No+Image"
                   }
                   alt={event.name}
                 />
@@ -123,18 +130,34 @@ export const EventsGallery = () => {
 
                   {/* Location */}
                   <div className="flex items-center mb-2 gap-1">
-                    <LocationOn fontSize="small" color="action" className="shrink-0" />
-                    <Typography variant="body2" color="text.secondary" className="text-sm truncate">
+                    <LocationOn
+                      fontSize="small"
+                      color="action"
+                      className="shrink-0"
+                    />
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      className="text-sm truncate"
+                    >
                       {event.location}
                     </Typography>
                   </div>
 
                   {/* Dates */}
                   <div className="flex items-center gap-1">
-                    <CalendarToday fontSize="small" color="action" className="shrink-0" />
-                    <Typography variant="body2" color="text.secondary" className="text-xs sm:text-sm">
-                      {format(new Date(event.startDate), 'MMM dd, yyyy')} -{' '}
-                      {format(new Date(event.endDate), 'MMM dd, yyyy')}
+                    <CalendarToday
+                      fontSize="small"
+                      color="action"
+                      className="shrink-0"
+                    />
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      className="text-xs sm:text-sm"
+                    >
+                      {format(new Date(event.startDate), "MMM dd, yyyy")} -{" "}
+                      {format(new Date(event.endDate), "MMM dd, yyyy")}
                     </Typography>
                   </div>
                 </CardContent>

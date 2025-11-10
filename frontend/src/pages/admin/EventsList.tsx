@@ -70,6 +70,8 @@ export const EventsList = () => {
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['events', filters],
     queryFn: () => eventsService.getAll(filters),
+    refetchOnMount: "always",
+    refetchOnWindowFocus: true,
   });
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
