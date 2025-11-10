@@ -5,13 +5,12 @@ React + TypeScript frontend for the Event Management System with separate Admin 
 ## Tech Stack
 
 - **Framework**: React 18 + TypeScript
-- **Build Tool**: Vite  
+- **Build Tool**: Vite
 - **UI Framework**: Material UI v5
 - **Routing**: React Router v6
-- **Forms**: React Hook Form + Yup validation
-- **Data Fetching**: TanStack Query (React Query)
+- **Forms**: React Hook Form + Zod validation
 - **HTTP Client**: Axios
-- **Date Handling**: date-fns
+- **State Management**: React Context API
 - **Testing**: Vitest + React Testing Library
 
 ## Features
