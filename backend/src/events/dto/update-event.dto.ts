@@ -41,9 +41,9 @@ export class UpdateEventDto {
 
   @ApiPropertyOptional({
     description: 'URL to event poster image',
-    example: 'https://example.com/posters/tech-conf-2024.jpg',
+    example: 'http://localhost:3000/uploads/poster.jpg',
   })
-  @IsUrl()
+  @IsUrl({ require_tld: false })
   @IsOptional()
   posterUrl?: string;
 
