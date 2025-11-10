@@ -4,10 +4,10 @@ import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { CreateEvent } from './CreateEvent';
-import * as eventsService from '../../services/events.service';
+import * as eventsService from '../../api/events';
 
 // Mock the services
-vi.mock('../../services/events.service');
+vi.mock('../../api/events');
 vi.mock('react-router-dom', async () => {
   const actual = await vi.importActual('react-router-dom');
   return {

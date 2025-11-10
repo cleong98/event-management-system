@@ -15,7 +15,7 @@ import {
 import { AccountCircle, Menu as MenuIcon } from '@mui/icons-material';
 import { useAuth } from '../contexts/AuthContext';
 import { useState } from 'react';
-import { authService } from '../services/auth.service';
+import { logout as logoutApi } from '../api/auth';
 
 export const AdminLayout = () => {
   const { admin, logout } = useAuth();
@@ -45,7 +45,7 @@ export const AdminLayout = () => {
     try {
       const refreshToken = localStorage.getItem('refresh_token');
       if (refreshToken) {
-        await authService.logout(refreshToken);
+        await logoutApi(refreshToken);
       }
     } catch (error) {
       console.error('Logout error:', error);

@@ -4,8 +4,6 @@ import {
   Card,
   CardMedia,
   Typography,
-  Chip,
-  CircularProgress,
   Alert,
   Container,
   Button,
@@ -13,8 +11,10 @@ import {
 } from "@mui/material";
 import { LocationOn, CalendarToday, ArrowBack } from "@mui/icons-material";
 import { format } from "date-fns";
-import { eventsService } from "../../services/events.service";
+import { getPublicEventById } from "../../api/events";
 import { EventStatus } from "../../types";
+import { LoadingSpinner } from "../../components/LoadingSpinner";
+import { EventStatusChip } from "../../components/EventStatusChip";
 
 export const EventDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -26,22 +26,14 @@ export const EventDetails = () => {
     error,
   } = useQuery({
     queryKey: ["public-event", id],
-    queryFn: () => eventsService.getPublicEventById(id!),
+    queryFn: () => getPublicEventById(id!),
     enabled: !!id,
     refetchOnMount: "always",
     refetchOnWindowFocus: true,
   });
 
-  const getStatusColor = (status: EventStatus) => {
-    return status === EventStatus.ONGOING ? "success" : "default";
-  };
-
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-[60vh]">
-        <CircularProgress />
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   if (error || !event) {
@@ -101,9 +93,8 @@ export const EventDetails = () => {
             >
               {event.name}
             </Typography>
-            <Chip
-              label={event.status}
-              color={getStatusColor(event.status)}
+            <EventStatusChip
+              status={event.status}
               size="medium"
               className="self-start sm:self-auto"
             />

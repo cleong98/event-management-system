@@ -30,7 +30,12 @@
       "Bash(.dockerignore)",
       "Bash(docker-compose build:*)",
       "Bash(npm uninstall:*)",
-      "Bash(pkill:*)"
+      "Bash(pkill:*)",
+      "Bash(find:*)",
+      "Bash(npx playwright@latest install chromium)",
+      "Bash(node test-login.mjs:*)",
+      "Bash(npm init:*)",
+      "Bash(node test-login-debug.mjs:*)"
     ],
     "deny": [],
     "ask": []

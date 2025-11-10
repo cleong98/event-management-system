@@ -38,7 +38,7 @@ import {
   Add as AddIcon,
 } from '@mui/icons-material';
 import { format } from 'date-fns';
-import { eventsService } from '../../services/events.service';
+import { getAllEvents } from '../../api/events';
 import { EventStatus } from '../../types';
 import type { EventFilters } from '../../types';
 import { DeleteEventDialog } from '../../components/DeleteEventDialog';
@@ -69,7 +69,7 @@ export const EventsList = () => {
   // Fetch events with react-query
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['events', filters],
-    queryFn: () => eventsService.getAll(filters),
+    queryFn: () => getAllEvents(filters),
     refetchOnMount: "always",
     refetchOnWindowFocus: true,
   });

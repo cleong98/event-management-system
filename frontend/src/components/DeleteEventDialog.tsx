@@ -13,7 +13,8 @@ import {
   IconButton,
 } from '@mui/material';
 import { Warning, Close } from '@mui/icons-material';
-import { eventsService } from '../services/events.service';
+import { deleteEvent } from '../api/events';
+import type { ApiError } from '../types/error';
 
 interface DeleteEventDialogProps {
   open: boolean;
@@ -33,16 +34,17 @@ export const DeleteEventDialog = ({
 
   const deleteMutation = useMutation({
     mutationFn: (data: { password: string }) =>
-      eventsService.delete(eventId, data),
+      deleteEvent(eventId, data),
     onSuccess: () => {
       setPassword('');
       setError('');
       onClose();
       onSuccess('Event deleted successfully!');
     },
-    onError: (err: any) => {
+    onError: (err) => {
+      const error = err as ApiError;
       setError(
-        err.response?.data?.message || 'Failed to delete event. Please check your password.'
+        error.response?.data?.message || 'Failed to delete event. Please check your password.'
       );
     },
   });
