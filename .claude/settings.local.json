@@ -22,7 +22,13 @@
       "Bash(cat:*)",
       "Bash(npm prune:*)",
       "Bash(npx tailwindcss:*)",
-      "WebFetch(domain:mui.com)"
+      "WebFetch(domain:mui.com)",
+      "WebFetch(domain:docs.nestjs.com)",
+      "Bash(chmod:*)",
+      "Bash(lsof:*)",
+      "Bash(xargs kill:*)",
+      "Bash(.dockerignore)",
+      "Bash(docker-compose build:*)"
     ],
     "deny": [],
     "ask": []
