@@ -23,7 +23,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const accessToken = localStorage.getItem('access_token');
 
     if (storedAdmin && accessToken) {
-      setAdmin(JSON.parse(storedAdmin));
+      try {
+        setAdmin(JSON.parse(storedAdmin));
+      } catch (error) {
+        // Handle corrupted localStorage data
+        console.error('Failed to parse stored admin data:', error);
+        localStorage.removeItem('admin');
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+      }
     }
 
     setLoading(false);
